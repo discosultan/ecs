@@ -1,2 +1,3 @@
 # ecs
-Platform agnostic proof of concept entity component system.
+
+Experimental entity-component-system created for learning purposes.
