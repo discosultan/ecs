@@ -12,7 +12,7 @@ namespace ECS
         //     32                                      31
         // Ref: https://msdn.microsoft.com/en-us/library/a1sway8w.aspx
         const int BitfieldLength = 63;
-        
+
         bool _enabled = true;
 
         internal int Id;
@@ -55,11 +55,11 @@ namespace ECS
         public void Dispose() => World.EntityManager.ReleaseEntityToPool(this);
 
         internal void GetComponentsForComponentBits(Bitfield systemComponentBits, int numberOfSystemComponents, EntityComponent[] componentsContainer)
-        {            
+        {
             int componentCounter = 0;
             for (Bitfield bit = 1; bit <= 1 << BitfieldLength - 1; bit <<= 1)
                 if ((bit & systemComponentBits) > 0)
-                {                    
+                {
                     componentsContainer[componentCounter++] = Components[bit];
                     if (componentCounter >= numberOfSystemComponents)
                         break;

@@ -7,9 +7,9 @@ using EntityComponent = System.Object;
 namespace ECS.Managers
 {
     class EntityComponentManager
-    {        
+    {
         readonly EntityWorld _world;
-        readonly Dictionary<Type, Bitfield> _registeredComponentTypes = new Dictionary<Type, Bitfield>();        
+        readonly Dictionary<Type, Bitfield> _registeredComponentTypes = new Dictionary<Type, Bitfield>();
         readonly Dictionary<Type, Func<EntityComponent>> _componentFactories = new Dictionary<Type, Func<EntityComponent>>();
         readonly Dictionary<Bitfield, Pool<EntityComponent>> _componentsPools = new Dictionary<Bitfield, Pool<EntityComponent>>();
 
@@ -22,8 +22,7 @@ namespace ECS.Managers
 
         internal Bitfield GetComponentBitForType(Type type)
         {
-            Bitfield componentType;
-            if (!_registeredComponentTypes.TryGetValue(type, out componentType))
+            if (!_registeredComponentTypes.TryGetValue(type, out Bitfield componentType))
             {
                 componentType = nextBit;
                 nextBit <<= 1;
@@ -46,11 +45,9 @@ namespace ECS.Managers
         {
             Type type = typeof(T);
             Bitfield bit = GetComponentBitForType(type);
-            Pool<EntityComponent> componentPool;
-            if (!_componentsPools.TryGetValue(bit, out componentPool))
+            if (!_componentsPools.TryGetValue(bit, out Pool<object> componentPool))
             {
-                Func<EntityComponent> factory;
-                if (!_componentFactories.TryGetValue(type, out factory))
+                if (!_componentFactories.TryGetValue(type, out Func<object> factory))
                 {
                     factory = () => Activator.CreateInstance<T>();
                     _componentFactories.Add(type, factory);
@@ -63,8 +60,7 @@ namespace ECS.Managers
 
         internal void ReleaseComponentToPool(Bitfield bit, EntityComponent component)
         {
-            Pool<EntityComponent> componentPool;
-            if (_componentsPools.TryGetValue(bit, out componentPool))
+            if (_componentsPools.TryGetValue(bit, out Pool<object> componentPool))
                 componentPool.Release(component);
         }
     }

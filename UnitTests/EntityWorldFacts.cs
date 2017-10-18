@@ -23,7 +23,7 @@ namespace ECS.UnitTests
                 EntityWorld target = EmptyWorld();
 
                 Assert.Equal(target, target.AddSystem(new FakeComponent1System()));
-                Assert.Equal(1, target.GetSystems().Count);
+                Assert.Single(target.GetSystems());
             }
 
             [Fact]
@@ -65,7 +65,7 @@ namespace ECS.UnitTests
                 target.AddSystem(system);
 
                 Assert.Equal(system, target.RemoveSystem<FakeComponent1System>());
-                Assert.Equal(0, target.GetSystems().Count);
+                Assert.Empty(target.GetSystems());
             }
         }
 

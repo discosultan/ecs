@@ -25,7 +25,7 @@ namespace ECS
 
             UpdateContext = new ProcessingContext { Dirty = true, Systems = EntitySystemManager.SystemsForUpdate };
             DrawContext = new ProcessingContext { Dirty = true, Systems = EntitySystemManager.SystemsForDraw };
-        }        
+        }
 
         internal EntityWorldConfiguration Configuration { get; }
         internal EntityComponentManager EntityComponentManager { get; }
@@ -105,8 +105,7 @@ namespace ECS
 
         void PrepareComponentsForSystem(EntitySystem system)
         {
-            List<EntityComponent[]> allComponentsForSystem;
-            if (!_systemComponents.TryGetValue(system.Id, out allComponentsForSystem))
+            if (!_systemComponents.TryGetValue(system.Id, out List<object[]> allComponentsForSystem))
             {
                 allComponentsForSystem = new List<EntityComponent[]>();
                 _systemComponents.Add(system.Id, allComponentsForSystem);

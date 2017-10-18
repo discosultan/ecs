@@ -47,13 +47,12 @@ namespace ECS.Managers
         internal T RemoveSystem<T>() where T : EntitySystem
         {
             Type type = typeof(T);
-            EntitySystem system;
-            if (Systems.TryGetValue(type, out system))
+            if (Systems.TryGetValue(type, out EntitySystem system))
             {
                 Systems.Remove(type);
                 if (!SystemsForUpdate.Remove(system))
-                    SystemsForDraw.Remove(system);                
-            }            
+                    SystemsForDraw.Remove(system);
+            }
             return (T)system;
         }
     }

@@ -22,7 +22,7 @@ namespace ECS.UnitTests
                 Entity target = EmptyEntity();
 
                 Assert.Equal(target, target.AddComponent(new FakeComponent1()));
-                Assert.Equal(1, target.GetComponents().Count);
+                Assert.Single(target.GetComponents());
             }
 
             [Fact]
@@ -43,7 +43,7 @@ namespace ECS.UnitTests
                 Entity target = EmptyEntity();
 
                 Assert.Null(target.GetComponent<FakeComponent1>());
-            }            
+            }
 
             [Fact]
             public void ReturnsComponentForExistentType()
@@ -74,7 +74,7 @@ namespace ECS.UnitTests
                 target.AddComponent(component);
 
                 Assert.Equal(component, target.RemoveComponent<FakeComponent1>());
-                Assert.Equal(0, target.GetComponents().Count);
+                Assert.Empty(target.GetComponents());
             }
         }
 
@@ -108,10 +108,10 @@ namespace ECS.UnitTests
                 Assert.False(target1.Equals(target2));
             }
         }
-        
+
         readonly EntityWorld _world = new EntityWorld();
         protected Entity EmptyEntity()
-        {            
+        {
             return _world.CreateEntity();
         }
     }

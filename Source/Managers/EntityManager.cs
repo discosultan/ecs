@@ -63,18 +63,16 @@ namespace ECS.Managers
         internal T GetComponentFromEntity<T>(Entity entity) where T : class
         {
             Bitfield componentBit = _world.EntityComponentManager.GetComponentBitForType<T>();
-            EntityComponent component;
-            entity.Components.TryGetValue(componentBit, out component);
+            entity.Components.TryGetValue(componentBit, out EntityComponent component);
             return (T)component;
         }
 
         internal T RemoveComponentFromEntity<T>(Entity entity) where T : class
-        {            
+        {
             Type type = typeof(T);
             Bitfield componentBit = _world.EntityComponentManager.GetComponentBitForType(type);
 
-            EntityComponent component;
-            if (entity.Components.TryGetValue(componentBit, out component))
+            if (entity.Components.TryGetValue(componentBit, out EntityComponent component))
                 if (entity.Components.Remove(componentBit))
                 {
                     entity.ComponentBits &= ~componentBit;
@@ -86,14 +84,14 @@ namespace ECS.Managers
         }
 
         internal void Clear()
-        {            
-            Entity[] entitiesToRemove = Entities.Values.ToArray();            
+        {
+            Entity[] entitiesToRemove = Entities.Values.ToArray();
             foreach (Entity entity in entitiesToRemove)
-                entity.Dispose();            
+                entity.Dispose();
         }
 
         internal void GetState(EntityWorldState state)
-        {            
+        {
             state.Entities = Entities.Values.Select(x => new EntityState
             {
                 Enabled = x.Enabled,
